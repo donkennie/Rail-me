@@ -23,7 +23,7 @@ const bookingSchema = new mongoose.Schema({
     },
 
     seatCode: { 
-        type: String, 
+        type: Number, 
         required: true, 
         default: null
     },

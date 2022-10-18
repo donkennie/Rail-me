@@ -29,33 +29,50 @@ const CreateBooking = async (body) =>{
 
 const DeleteBooking = async (id) =>{
     try {
-        return;
+      const booking = await BookingModel.findByIdAndDelete(id);
+        return booking;
     } catch (error) {
         
     }
 };
 
-const UpdateBooking = async (id) =>{
+const UpdateBooking = async (id, changes) =>{
     try {
-        
+        const booking = await Booking.findByIdAndUpdate(id, changes,{
+            new: true,
+            runValidations: true
+        });
+        return booking;
     } catch (error) {
-        
+        throw{
+            status: error.status || 500,
+            message: error?.message || error
+        }
     }
 };
 
 const GetAllBooking = async () =>{
     try {
-        return;
+      const bookings = await BookingModel.find()
+      return bookings;
     } catch (error) {
         
+        throw{
+            status: error.status || 500,
+            message: error?.message || error
+        }
     }
 }
 
 const GetBookingById = async (id) =>{
    try {
-     return;
+      const booking = await BookingModel.findById(id);
+        return booking;
    } catch (error) {
-    
+    throw{
+        status: error.status || 500,
+        message: error?.message || error
+    }
    }
 };
 
