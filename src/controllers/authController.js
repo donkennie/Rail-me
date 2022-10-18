@@ -2,20 +2,16 @@ const UserModel = require('../models/user');
 const {success, failure, validate} = require('../helpers/responseApi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {validationResult} = require("express-validator");
 const { response } = require('../app');
 const {generateToken} = require('../helpers/generateToken');
+const {RequestValidator} = require('../helpers/requestValidation');
 
 /**
  * @api {post} api/v1/users Create User Account
  * */    
 
 exports.createUserAccount = async (req, res) => {
-    //Checking validation of the request body
-    const checkValidation = validationResult(req);
-    if (!checkValidation.isEmpty()){
-        return res.status(422).json(validate(checkValidation.array()))
-    }
+    RequestValidator(req, res);
     
     const {email, password, phone_number, first_name, last_name} = req.body;
     try {
@@ -27,7 +23,6 @@ exports.createUserAccount = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
-
         let newUser = await UserModel.create({
             email:  email.toLowerCase(),
             first_name,
@@ -36,10 +31,8 @@ exports.createUserAccount = async (req, res) => {
             password : hashPassword
         })
         await newUser.save();
-        newUser.token = generateToken(newUser.id);
-       // newUser.token = token;
 
-        return res.cookie({'token': token}).json(success('User registered successfully',newUser)
+        return res.json(success('User registered successfully',newUser)
         );
 
     } catch (err) {
@@ -51,10 +44,7 @@ exports.createUserAccount = async (req, res) => {
 
 exports.Login = async (req, res) => {   
     //Checking validation of the request body
-    const Checkvalidation = validationResult(req);
-    if (!Checkvalidation.isEmpty()){
-        return res.status(422).json(validate(Checkvalidation.array()))
-    }
+    RequestValidator(req, res);
 
     const {email, password} = req.body;
     try {
@@ -66,10 +56,7 @@ exports.Login = async (req, res) => {
         if(!checkPassword)
         return res.status(422).json(failure("Invalid credentials", res.statusCode));
 
-        const token = await jwt.sign({email: user.email, id: user.id}, process.env.SECRET_KEY, {
-            expiresIn: process.env.JWT_EXPIRE,
-        }
-        );
+        const token = generateToken( user.email, user.id);
 
         return res.cookie({"token": token}).json(success("You're welcome back!", {token},  res.statusCode));
 
