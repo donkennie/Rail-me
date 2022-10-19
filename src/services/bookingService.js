@@ -3,7 +3,7 @@ const {ApplicationError} = require('../middleware/applicationError');
 
 const CreateBooking = async (body) =>{
     try {     
-        if(!body) return new ApplicationError('Invalid request!');
+        if(!body) return new ApplicationError('Invalid request!', 422);
 
         const booking = await BookingModel.create({
             name: body.name,
@@ -31,7 +31,7 @@ const DeleteBooking = async (id) =>{
     try {
       const booking = await BookingModel.findByIdAndDelete(id);
 
-      if(!booking) return new ApplicationError(`No booking of the Id found in the database`);
+      if(!booking) return new ApplicationError('No booking of the Id found in the database', 422);
         return booking;
     } catch (error) {
         
@@ -57,7 +57,7 @@ const UpdateBooking = async (id, changes) =>{
 const GetAllBooking = async () =>{
     try {
       const bookings = await BookingModel.find()
-      if(!bookings) return new ApplicationError(`No bookings found in the database`);
+      if(!bookings) return new ApplicationError(`No bookings found in the database`, 422);
 
       return bookings;
     } catch (error) {

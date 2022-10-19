@@ -1,7 +1,6 @@
 const UserModel = require('../models/user');
 const {success, failure, validate} = require('../helpers/responseApi');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { response } = require('../app');
 const {generateToken} = require('../helpers/generateToken');
 const {RequestValidator} = require('../middleware/requestValidation');

@@ -36,6 +36,12 @@ const bookingSchema = new mongoose.Schema({
     flightTime: {
         type: Date,
         default: null
+    },
+
+    availableServices: {
+        type: String,
+        enum: ['reservation', 'business', 'economy',],
+        default: 'reservation'
     }
 
 })
