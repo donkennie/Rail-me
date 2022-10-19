@@ -1,7 +1,7 @@
 const {validationResult} = require("express-validator");
 const {success, failure, validate} = require('../helpers/responseApi');
 const bookingService = require('../services/bookingService');
-const {RequestValidator} = require('../helpers/requestValidation');
+const {RequestValidator} = require('../middleware/requestValidation');
 
 exports.CreateBooking = async (req, res) => {
     RequestValidator(req, res);

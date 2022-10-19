@@ -1,5 +1,5 @@
 const BookingModel= require('../models/booking')
-const {ApplicationError} = require('../helpers/applicationError');
+const {ApplicationError} = require('../middleware/applicationError');
 
 const CreateBooking = async (body) =>{
     try {     
@@ -30,6 +30,8 @@ const CreateBooking = async (body) =>{
 const DeleteBooking = async (id) =>{
     try {
       const booking = await BookingModel.findByIdAndDelete(id);
+
+      if(!booking) return new ApplicationError(`No booking of the Id found in the database`);
         return booking;
     } catch (error) {
         
@@ -42,6 +44,7 @@ const UpdateBooking = async (id, changes) =>{
             new: true,
             runValidations: true
         });
+
         return booking;
     } catch (error) {
         throw{
@@ -54,6 +57,8 @@ const UpdateBooking = async (id, changes) =>{
 const GetAllBooking = async () =>{
     try {
       const bookings = await BookingModel.find()
+      if(!bookings) return new ApplicationError(`No bookings found in the database`);
+
       return bookings;
     } catch (error) {
         
