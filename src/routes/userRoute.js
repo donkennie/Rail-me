@@ -9,5 +9,6 @@ router
   .post(auth.createUserAccount)
 router.route('/login')
   .post(auth.Login);
-
+router.route('/getAllUsers')
+   .get(auth.GetAllUsers);
 module.exports = router;

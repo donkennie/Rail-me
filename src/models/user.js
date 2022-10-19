@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
     first_name: {
         type: String,
-        required: true,
+        required:[ true, "Please Enter Your Name"],
         minLength: 3,
         maxlength: 255
     },
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required:[true, "Please Enter Your Email"],
         unique: true,
         minLength: 5,
         maxlength: 255
@@ -24,17 +24,29 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: 5,
-        maxlength: 255
+        minLength:[5, "Password should be greater than 5 characters"],
+        maxlength: 255,
+        select: false
     },
     phone_number: { 
         type: String,
         required: true,
         maxlength: 20
     },
+
+    role: {
+        type: String,
+        default: "user",
+      },
+
     token: {
         type: String,
-    }
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now,
+      },
 
 });
 

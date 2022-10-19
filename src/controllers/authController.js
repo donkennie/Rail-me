@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { response } = require('../app');
 const {generateToken} = require('../helpers/generateToken');
-const {RequestValidator} = require('../helpers/requestValidation');
+const {RequestValidator} = require('../middleware/requestValidation');
 
 /**
  * @api {post} api/v1/users Create User Account
@@ -61,7 +61,15 @@ exports.Login = async (req, res) => {
         return res.cookie({"token": token}).json(success("You're welcome back!", {token},  res.statusCode));
 
     } catch (err) {
-       // console.error(err.message);
+        console.error(err.message);
         res.status(500).json(failure(err.message, res.statusCode));
     }
+}
+
+//Get all users(admin only)
+exports.GetAllUsers = async (req, res) => {1    
+    const users = await UserModel.find();
+    if(!users) return res.status(422).json(failure("No use", res.statusCode));
+    
+    return res.json(success("Retrived successfully", users));  
 }
