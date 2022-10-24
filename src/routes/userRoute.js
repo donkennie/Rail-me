@@ -1,4 +1,5 @@
 const express = require('express'); 
+const {IsAuthenticatedUser, IsAdminUser} = require('../middleware/authorizationHandler')
 
 const router = express.Router();
 
@@ -10,5 +11,5 @@ router
 router.route('/login')
   .post(auth.Login);
 router.route('/getAllUsers')
-   .get(auth.GetAllUsers);
+   .get(IsAuthenticatedUser, auth.GetAllUsers);
 module.exports = router;

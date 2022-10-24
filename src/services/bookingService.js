@@ -6,13 +6,14 @@ const CreateBooking = async (body) =>{
         if(!body) return new ApplicationError('Invalid request!', 422);
 
         const booking = await BookingModel.create({
-            name: body.name,
-            location: body.location,
-            address: body.address,
-            time: body.time,
-            price: body.price,
-            seatCode: body.seatCode,
-            flightDate: body.flightDate,
+          name: body.name,
+          location: body.location,
+          address: body.address,
+          time: body.time,
+          price: body.price,
+          seatCode: RandomNumber(),
+          flightTime: body.flightTime,
+          availableServices: expression(body.availableServices)
         });
 
         return booking;
@@ -27,11 +28,37 @@ const CreateBooking = async (body) =>{
     }
 };
 
+const expression = (availableServices) => {
+
+      switch (availableServices) {
+    case 'reservation':
+       console.log( `You are on ${availableServices} service. Your accomodation price is $200`);
+        break;
+
+    case 'business':
+       console.log(`You are on ${availableServices} service. You're accomodation price is $300`);
+        break;
+
+    case 'economy':
+       console.log(`You are on ${availableServices} service. You're accomodation price is $500`);
+        break;
+
+    default:
+        console.log("You've not selected any available service yet");
+        break;
+}
+}
+
+const RandomNumber = () => {
+    return Math.floor(Math.random() * (200 - 10) + 10)
+}
+
+
 const DeleteBooking = async (id) =>{
     try {
       const booking = await BookingModel.findByIdAndDelete(id);
 
-      if(!booking) return new ApplicationError('No booking of the Id found in the database', 422);
+      if(!booking) return new ApplicationError('No booking of the Id found in the database', 400);
         return booking;
     } catch (error) {
         
