@@ -13,10 +13,22 @@ const CreateBooking = async (body) =>{
           time: body.time,
           seatCode: RandomNumber(),
           flightTime: body.flightTime,
-          availableServices:  expression(body.availableServices)
+          availableServices: body.availableServices
         });
 
-        return booking;
+       if(body.availableServices === "reservation"){
+        return success(`You are on reservation service. Your accomodation price is $500`, booking);
+       }
+
+       else if(body.availableServices === "business"){
+        return success(`You are on business service. You're accomodation price is $600`, booking);
+       }
+
+       else if(body.availableServices === "economy"){
+        return success(`You are on economy service. You're accomodation price is $200`, booking);
+       }
+
+        return failure(`You are not on any service`, 500);
 
 
     } catch (error) {
@@ -28,25 +40,33 @@ const CreateBooking = async (body) =>{
     }
 };
 
-const expression = (availableService) => {
-      switch (availableService) {
-    case 'reservation':
-   console.log(`You are on ${availableServices} service. Your accomodation price is $200`);
-   break;
+// const success = ( data) => {
+//     return {
+//         data
+//     };
+// };
 
-    case 'business':
-       console.log(`You are on ${availableServices} service. You're accomodation price is $300`);
-        break;
+// const expression = (availableService) => {
 
-    case 'economy':
-       console.log(`You are on ${availableServices} service. You're accomodation price is $500`);
-        break;
+//       switch (availableService) {
+//     case 'reservation':
+//    return success (`You are on ${availableService} service. Your accomodation price is $200`, "Ogbon");
+//    break;
 
-    default:
-        console.log("You've not selected any available service yet");
-        break;
-}
-}
+//     case 'business':
+//        console.log(`You are on ${availableService} service. You're accomodation price is $300`);
+//         break;
+
+//     case 'economy':
+//        console.log(`You are on ${availableService} service. You're accomodation price is $500`);
+//         break;
+
+//     default:
+//         console.log("You've not selected any available service yet");
+//         break;
+
+// } 
+// }
 
 const RandomNumber = () => {
     return Math.floor(Math.random() * (200 - 10) + 10)

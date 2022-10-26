@@ -6,7 +6,7 @@ exports.CreateBooking = async (req, res) => {
     RequestValidator(req, res);
     try{
         const booking = await bookingService.CreateBooking(req.body);
-        return res.status(201).json(success("Created successfully!", booking))
+        return res.status(201).json(booking);
     }
     catch(err){
         console.error(err.message);

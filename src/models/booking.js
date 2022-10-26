@@ -35,7 +35,7 @@ const bookingSchema = new mongoose.Schema({
     availableServices: {
         type: String,
         enum: ['reservation', 'business', 'economy',],
-        default: 'reservation'
+      //  default: 'reservation'
     }
 
 })
