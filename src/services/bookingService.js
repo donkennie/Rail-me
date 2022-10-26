@@ -1,5 +1,6 @@
 const BookingModel= require('../models/booking')
 const {ApplicationError} = require('../middleware/applicationError');
+const {success, failure, validate} = require('../helpers/responseApi');
 
 const CreateBooking = async (body) =>{
     try {     
@@ -10,10 +11,9 @@ const CreateBooking = async (body) =>{
           location: body.location,
           address: body.address,
           time: body.time,
-          price: body.price,
           seatCode: RandomNumber(),
           flightTime: body.flightTime,
-          availableServices: expression(body.availableServices)
+          availableServices:  expression(body.availableServices)
         });
 
         return booking;
@@ -28,12 +28,11 @@ const CreateBooking = async (body) =>{
     }
 };
 
-const expression = (availableServices) => {
-
-      switch (availableServices) {
+const expression = (availableService) => {
+      switch (availableService) {
     case 'reservation':
-       console.log( `You are on ${availableServices} service. Your accomodation price is $200`);
-        break;
+   console.log(`You are on ${availableServices} service. Your accomodation price is $200`);
+   break;
 
     case 'business':
        console.log(`You are on ${availableServices} service. You're accomodation price is $300`);

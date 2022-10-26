@@ -1,4 +1,3 @@
-const {validationResult} = require("express-validator");
 const {success, failure, validate} = require('../helpers/responseApi');
 const bookingService = require('../services/bookingService');
 const {RequestValidator} = require('../middleware/requestValidation');

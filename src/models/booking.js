@@ -11,12 +11,6 @@ const bookingSchema = new mongoose.Schema({
         required: true
     },
 
-    prices: {  
-        type: Number,
-        required: true,
-        default: 0,
-    },
-
     address: {
         type: String,
         required: true
