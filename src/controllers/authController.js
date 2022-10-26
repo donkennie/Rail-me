@@ -31,7 +31,7 @@ exports.createUserAccount = async (req, res) => {
         })
         await newUser.save();
 
-        return res.json(success('User registered successfully',newUser)
+        return res.json(success('User registered successfully', ` You're welcome, ${newUser.first_name}!`)
         );
 
     } catch (err) {
