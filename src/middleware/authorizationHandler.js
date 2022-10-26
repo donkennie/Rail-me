@@ -1,9 +1,10 @@
 const UserModel = require('../models/user');
-const jwt = require('jsonwebtoken');
+const {jwt} = require('jsonwebtoken');
 const {ApplicationError} = require('../middleware/applicationError');
 
+
 exports.IsAuthenticatedUser = async(req, res, next) => {
-   const {token} = req.cookies['token'];
+   const {token} =  req.cookies['token'];
    if (!token) {
       return next(new ApplicationError("Not authenticated", 401));
    }
@@ -27,3 +28,4 @@ exports.IsAdminUser = (...roles) => {
         next();
     };
 }
+

@@ -11,5 +11,5 @@ router
 router.route('/login')
   .post(auth.Login);
 router.route('/getAllUsers')
-   .get(IsAuthenticatedUser, auth.GetAllUsers);
+   .get(IsAdminUser, auth.GetAllUsers);
 module.exports = router;
